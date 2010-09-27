@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" dir="ltr">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="description" content="{% block description %}{% endblock %}" />
+        <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+        <link rel="shortcut icon" href="{{ MEDIA_URL }}/images/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="{{ MEDIA_URL }}/css/news.css" type="text/css" media="screen" />
+      {% block js %}{% endblock %}
+    </head>
+    <body>
+        <div id="page">
+            <div id="header">
+
+                <div id="user_nav">
+                    {% if user.is_authenticated %}
+						<a class="welcome" href="#" name="top">{{ user.username }}</a>
+						<a href="/accounts/logout">退出</a>
+                    {% else %}
+<!-- http://local.dztong.com/bbs/logging.php?action=login&reffer=http://local.dztong.com:8000/ -->
+					<a href="/accounts/login"  >登录</a>
+
+                    <a href="http://local.dztong.com/bbs/register.php?reffer=http://local.dztong.com:8000/" class="nobg">注册</a>
+                    {% endif %}
+                </div>
+                <div class='clearfix'>
+                    <div id='brandding'>
+                        <h2><a href="/" title="电子通社区" >电子通社区</a></h2>
+                    </div>
+                </div>
+            </div>
+            <div id="content" class="clearfix">
+                {% block content %}{% endblock %}
+
+                {% load navigation %}
+
+
+
+                <div id="nav">
+                    <div class="wrapper">
+                        <ul>
+                            <li>
+                                <a href="/"  {% current_nav  '/' %} >首页</a>
+                            </li>
+                            <li>
+                                <a href="/news/"  {% current_nav  '/news' %} >新闻</a>
+                            </li>
+                            <li>
+                                <a href="/wiki/"  {% current_nav  '/wiki' %} >资料</a>
+                            </li>
+                            <li>
+                                <a href="/video/"  {% current_nav  '/video' %} >教程</a>
+                            </li>
+                            <li>
+                                <a href="#1">社区</a>
+                            </li>
+                            <li class="last">
+                                <a href="#2">搜索</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            {% include "footer.html" %}
+

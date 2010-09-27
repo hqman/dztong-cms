@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load i18n pagination %}
+{% load i18n navigation %}
+{% block title %} dztong index {% endblock %}
+{% block content %}
+{% load timerange %}
+<div id="main">
+    <div id='side'>
+
+    
+    {% ifequal request.path|rootpath 'news' %}
+            {% include "slide_news.html" %}
+    {% endifequal %}
+
+     {% ifequal request.path|rootpath 'wiki' %}
+            {% include "slide_wiki.html" %}
+    {% endifequal %}
+
+     {% ifequal request.path|rootpath 'video' %}
+            {% include "slide_video.html" %}
+    {% endifequal %}
+
+
+    </div>
+    <div id='index_main'>
+        {% if posts %}
+        {% pre_pagination posts page %}
+        {% for post in posts %}
+        <div class="news clearfix">
+            <div class="content">
+                <h3><img src="{{ MEDIA_URL }}/images/{{ post.news_type }}.gif"><a href="{{ post.get_absolute_url }}" title="{{ post.title }}">{{ post.title }} </a></h3>
+                <div>
+                    {{ post.excerpt }}
+                </div>
+                <div class="news_info">
+                    <a href="#" target="_blank">{{ post.get_author }}</a>
+                    <span class="comment"><a href="#comments">评论({{ post.get_comment_count }})</a></span>
+                    <span class="view">有{{ post.get_view_count }}人浏览</span>
+                    <span class="date">{{ post.post_date|before }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% do_pagination %}
+        {% else %}
+        No artile yet!
+        {% endif %}
+    </div>
+		
+</div>
+
+
+<div id="local">
+    {% include "local.html" %}
+</div>
+
+
+{% endblock %}
+

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+	
+
+
+
+{% if form.has_errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+
+<div style="border:1px solid #ccc;background-color:white;width:400px;padding:10px;">
+<form method="post" action=".">{% csrf_token %}
+      <span style="color:#4274A1;">请填写您的会员名和密码</span><br>
+      <table width="100%" cellpadding="5">
+        <tbody><tr>
+          <td width="110px"><span style="color: red">*</span> 会员名</td><td>{{ form.username }}</td>
+        </tr>
+        <tr>
+          <td><span style="color: red">*</span> 密码</td><td>{{ form.password }}</td>
+        </tr>
+         {% csrf_token %}
+        <tr>
+       <input  type="hidden" name="next" value="/">
+          <td><input id="login_button" type="submit" tabindex="4" value="登录"></td>
+        </tr>
+      </tbody></table>
+	  </form>
+
+    </div>
+	{% endblock %}

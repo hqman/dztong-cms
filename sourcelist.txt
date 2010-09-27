@@ -1,0 +1,6 @@
+http://djangothumbnails.com/  thnumb.py
+
+http://code.google.com/p/django-command-extensions/ django_extensions
+
+http://pypi.python.org/pypi/django-debug-toolbar/0.8.3  ddt
+

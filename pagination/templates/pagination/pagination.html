@@ -1,0 +1,19 @@
+<div class="pagination">
+	<!--<span class="current">{{ pagi_current }} /{{ pagi_page.paginator.num_pages }}</span>-->
+    {% if pagi_page.has_previous %}<span class="prev_page"><a href="{{ pagi_path }}?page={{ pagi_page.previous_page_number }}" class="prev_page" rel="prev"><前页</a></span>
+    {% endif %}
+    {% if show_first %}
+    <span class="gap">…</span>
+    {% endif %}
+    {% for num in pagi_range %}
+    {% ifequal num pagi_current %}<span class="current">{{ num }}</span>
+    {% else %} <a href="{{ pagi_path }}?page={{ num }}">{{ num }}</a>
+    {% endifequal %}
+    {% endfor %}
+     {% if show_last %}
+      <span class="gap">…</span>
+    {% endif %}
+    {% if pagi_page.has_next %} <a href="{{ pagi_path }}?page={{ pagi_page.next_page_number }}" class="next_page" rel="next">后页></a>
+    {% endif %}
+</div>
+ 

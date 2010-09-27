@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %} dztong {{ post.title }} {% endblock %}
+{% block keywords %} dztong {{ post.title }} {% endblock %}
+{% block js %}<script type="text/javascript" src="{{ MEDIA_URL }}/js/jquery-1.4.2.min.js" ></script>
+ {% endblock %}
+
+{% block content %}
+{% load comments %}
+{% load bbcode %}
+{% load timerange %}
+
+<script>
+  function vote2(kind) {
+    $.getJSON("/vote/", { pk:{{ post.pk }}, vote: kind }, function(json){
+      alert("Was successful?: " + json['success']);
+    });
+  }
+  function addClickHandlers() {
+    $("#upvote").click( function() { vote("up") });
+    $("#downvote").click( function() { vote("down") });
+ }
+ $(document).ready(addClickHandlers);
+
+ function vote(direction) {
+    $.post('/vote/'+{{ post.pk }}+'/'+direction+'/', {HTTP_X_REQUESTED:'XMLHttpRequest'},
+           function(data) {
+               if (data.success == true) {
+                   $('#score').text(data.score.score);
+                   $('#num_votes').text(data.score.num_votes);
+               } else {
+                   alert('ERROR: ' + data.error_message);
+               }
+           }, 'json'
+          )
+}
+
+ function  quote_comment(id){
+	 $.getJSON("/comments/quote_comment", {pk:id}, function (data){
+	        $("#id_content")[0].value="[quote "+data.author+" 写道:]"+data.content+"[/quote]";
+	    });
+
+
+ }
+
+  </script>
+<div id="main">
+    <div style="margin: 10px 0pt;" class="crumbs">
+        <a href="/news">新闻频道</a>
+        <span class="arrow">→</span>
+        {% for category in post.get_categories %}{% if forloop.last %}<a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+        {% else %}<a href="{{ category.get_absolute_url }}">{{ category.name }}</a>,
+        {% endif %}{% endfor %}
+    </div>
+    <div class="news_main">
+        <div class="news">
+            <div class="clearfix">
+
+
+
+        {% load voting_tags %}
+             {% score_for_object post as score %}
+<h5>Votes <span id="score">{{ score.score }}</span> point{{ score.score|pluralize }}
+         after <span id="num_votes">{{ score.num_votes }}</span> vote{{ score.num_votes|pluralize }}</h5>
+<ul>
+    <li><a href="#" onclick="vote('up');">I like it!</a></li>
+    <li><a href="#" onclick="vote('down');">I hate it!</a></li>
+    <li><a href="#" onclick="vote('clear');">I take it back! Clear my vote.</a></li>
+</ul>
+
+<div id="news_icon">
+                </div>
+                <div class="title">
+                    <h3><img  src="/static/images/{{ post.news_type }}.gif"><a href="/news/17242" title="{{ post.title }}">{{ post.title }}</a></h3>
+                    <div class="news_info" style="background-color: transparent;">
+                        <span class="date">{{ post.post_date|before }}</span>
+                        by {{ post.get_author }}
+                        <br>
+                        <span class="comment"><a href="#comment">评论({{ post.get_comment_count }})</a></span>
+                        <span class="view">有{{ post.get_view_count }}人浏览</span>
+                    </div>
+                </div>
+            </div>
+            <div id="news_content">
+                {{ post.content|safe }}
+
+            </div>
+            <div id='comment'>
+             {% load comments i18n %}
+
+
+               <div class="comments">
+               {% get_comment_count for post as comments_count  %}
+               <span style="font-weight: bold; font-size: 16px; margin-right: 14px;">评论</span>
+                共{{ comments_count }}条  <a href="#to_comment" >我要发表评论</a>
+                {% get_comment_list for post as comment_list %}
+
+				{% load i18n pagination %}
+
+    		{% if comment_list  %}
+    	         {% pre_pagination comment_list page %}
+               {% do_pagination %}
+    		       {% for comment in comment_list %}
+                     <div class="comment"  id="comment-{{ comment.id }}">
+                     <div class="logo"><a href="#" target="_blank">{{ comment.user_name }}</a></div>
+                      <h5><small class="commentmetadata"><span>{{ comment.submit_date|before }}</span></small>
+                     <a  href="#to_comment" onclick="quote_comment({{ comment.id }});return false;">引用</a></h5>
+                     <p>{{ comment.content|bbcode}} </p>
+                     </div>
+                {% endfor %}
+      	        {% do_pagination %}
+      	{% else %}
+      		       抢沙发.
+    	  {% endif %}
+
+                   {% if user.is_authenticated %}
+                   <br>
+                    <div class="comments">
+                  {% render_comment_form for post %}
+                  </div>
+                {% else %}
+                 <hr/>
+                您好，朋友，请 <a href="/accounts/login/">登录</a>
+                ，或者 <a href="/accounts/register/">注册</a>后，再发表评论
+                {% endif %}
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="local">
+    {% include "local.html" %}
+</div>
+{% endblock %}
+

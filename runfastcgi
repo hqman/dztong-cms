@@ -1,0 +1,15 @@
+#!/bin/sh
+#PROJDIR="/home/hqman/projects/django/dztong"
+PROJDIR="/home/hqmank/www/dztong.com/dztong"
+PIDFILE="$PROJDIR/cgi/dztong.pid"
+SOCKET="$PROJDIR/cgi/dztong.sock"
+
+cd $PROJDIR
+if [ -f $PIDFILE ]; then
+    kill `cat -- $PIDFILE`
+    rm -rf -- $PIDFILE
+fi
+exec /usr/bin/env - \
+  PYTHONPATH="../python:.." \
+  ./manage.py runfcgi socket=$SOCKET pidfile=$PIDFILE
+

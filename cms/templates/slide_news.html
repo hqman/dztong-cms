@@ -1,0 +1,10 @@
+{% load sidebar i18n %}
+{% load cache %}
+<div id="blog_category">
+    <h3>新闻分类</h3>
+    <ul id="category">
+       {% cache 60000 news_cates%}
+ {% get_cates news%}
+ {% endcache %}
+    </ul>
+</div>

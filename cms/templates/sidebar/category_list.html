@@ -1,0 +1,7 @@
+{% load navigation %}
+ 
+{% if categories %}
+	{% for category in categories %}
+    <li><a href="/{{ post_type }}/cate/{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+	{% endfor %}
+{% endif %}

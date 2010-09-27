@@ -1,0 +1,53 @@
+{% load comments i18n %}
+<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}/js/bbedit/bbedit.css" />
+<script type="text/javascript" src="{{ MEDIA_URL }}/js/bbedit/jquery.bbedit.js"></script>
+<script type="text/javascript" src="{{ MEDIA_URL }}/js/jquery.hotkeys-0.7.9.js"></script>
+
+ <script type="text/javascript">
+    $(document).ready(function() {
+      // Full feature editor with custom language
+      $("#id_content").bbedit({
+        lang: 'zh-cn',
+        highlight: true,
+        enableSmileybar: false,
+        tags: 'b,i,u,s,url,img,code,quote',
+      });
+       jQuery(document).bind('keydown', 'alt+s',
+                   function(evt){ Create(); return false; });
+
+    });
+    
+    function Create()
+        {
+            var f = document.frm
+            f.submit()
+        }
+
+    </script>
+<a name="to_comment">
+
+<form action="{% comment_form_target %}" method="post" name="frm">{% csrf_token %}
+  {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+  <div class="bbedit-container bbedit-skin-default" style="width: 423px;">
+  {{ form.content }}
+  </div>
+   {{ form.content_type }}
+    {{ form.object_pk }}
+	 {{ form.parent_id }}
+	  {{ form.timestamp }}
+	   {{ form.security_hash }}
+	   <div style='text-align: left; width: 97%;'>
+    <input class="submit" id="quick_reply_button" name="commit" type="submit" value="提交">(快捷键 Alt+S)
+    </div>
+    
+</form>
+
+
+ 
+
+
+
+
+
+
+

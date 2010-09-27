@@ -1,0 +1,9 @@
+{% load sidebar i18n %}
+{% load cache %}
+
+<div>
+    <h3>最新发表新闻</h3>
+    {% cache 60000 recent_post %}
+    {% get_recent_posts %}
+    {% endcache %}
+</div>
