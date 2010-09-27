@@ -155,14 +155,6 @@ AKISMET_API_KEY ="52530ee29765"
 SITE_ID = 1
 
 #email setting
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = '25'
-EMAIL_HOST_USER = 'hqmank'
-EMAIL_HOST_PASSWORD = 'hqmanwangkaik'
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL='hqmank@gmail.com'
-
-
 CACHE_BACKEND = 'locmem:///?timeout=30000&max_entries=400'
 
 

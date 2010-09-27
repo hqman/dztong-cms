@@ -155,12 +155,6 @@ AKISMET_API_KEY ="52530ee29765"
 SITE_ID = 1
 
 #email setting
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = '25'
-EMAIL_HOST_USER = 'noreply@dztong.com'
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL='noreply@dztong.com'
 
 
 CACHE_BACKEND = 'locmem:///?timeout=30000&max_entries=400'
